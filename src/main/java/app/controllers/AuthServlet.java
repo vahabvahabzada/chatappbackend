@@ -18,7 +18,7 @@ import jakarta.servlet.http.HttpServletResponse;
 public class AuthServlet extends HttpServlet {
     //private AuthService service = new AuthService(new AuthDAO());
     private AuthService service;
-    public AuthServlet(AuthService service){//Bu konstruktoru,cagirmaliyiq,github-da tinder app daki kimi
+    public AuthServlet(AuthService service){
         this.service=service;
     }
 
