@@ -24,7 +24,7 @@ public class DBOperation {
         ResultSet netice = statement.executeQuery();
         
         if (!netice.next()) {// istifadeci adi tekrar deyil
-            String INSERT_USER_INTO_DB="insert into "+USER_TABLE+" values (\'" + user.getName() + "\',\'" + user.getPassword()+ "\')";
+            String INSERT_USER_INTO_DB="insert into "+USER_TABLE+"(name,password)"+" values (\'" + user.getName() + "\',\'" + user.getPassword()+ "\')";
             System.out.println(INSERT_USER_INTO_DB);
             statement=conn.prepareStatement(INSERT_USER_INTO_DB);
             statement.execute();
@@ -43,7 +43,7 @@ public class DBOperation {
         System.out.println("Works!");
         
         if (netice.next()) {
-            return new User(netice.getString("name"), netice.getString("password"));
+            return new User(Long.valueOf(netice.getString("id")),netice.getString("name"), netice.getString("password"));
         }
         else {
             return null;
@@ -52,7 +52,8 @@ public class DBOperation {
 
     public static Message sendMessage(Message message) throws SQLException{
         Connection connection=DBConnection.getElaqe();
-        String SEND_MESSAGE="insert into "+MESSAGE_TABLE+"(mfrom,mto,mbody) values(\'"+message.getFrom()+"\',\'"+message.getTo()+"\',\'"+message.getBody()+"\')";
+        String SEND_MESSAGE="insert into "+MESSAGE_TABLE+"(id,mfrom,mto,mbody) values("+message.getUser().getId()+",\'"+message.getFrom()+"\',\'"+message.getTo()+"\',\'"+message.getBody()+"\')";
+        System.out.println("Target QUERY : "+SEND_MESSAGE);
         PreparedStatement preparedStatement=connection.prepareStatement(SEND_MESSAGE);
         preparedStatement.execute();
         return message;

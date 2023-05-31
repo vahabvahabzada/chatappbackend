@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBConnection {
-    private static Connection elaqe;// neyin ki instance-ini yaratmaq lazim deyil,onu static saxlamaq meqsedeuygundur
+    private static Connection elaqe;
 
     public static Connection getElaqe() throws SQLException{
         if (elaqe == null) {
@@ -22,5 +22,3 @@ public class DBConnection {
         return elaqe;
     }
 }
-// mvn clean compile assembly single
-// java -jar target/chatappbackend-1.0-SNAPSHOT-jar-with-dependencies.jar

@@ -3,8 +3,7 @@ package com.vlachat.app.controllers;
 import java.io.IOException;
 
 import com.google.gson.Gson;
-
-import com.vlachat.app.entities.User;
+import com.vlachat.app.dtos.UserDto;
 import com.vlachat.app.security.JwtGenerator;
 import com.vlachat.app.services.AuthService;
 import jakarta.servlet.ServletException;
@@ -25,7 +24,7 @@ public class AuthServlet extends HttpServlet {
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         
         Gson gson=new Gson();
-        User currentUser=gson.fromJson(req.getReader(), User.class);
+        UserDto currentUser=gson.fromJson(req.getReader(), UserDto.class);
 
         if(service.login(currentUser)){
             // eger login ugurludusa,response-da Bearer token qaytar

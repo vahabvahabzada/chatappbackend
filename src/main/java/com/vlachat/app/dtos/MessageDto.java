@@ -1,25 +1,14 @@
-package com.vlachat.app.entities;
+package com.vlachat.app.dtos;
 
-public class Message {
-    private long id;
+public class MessageDto {
     private String from;
     private String to;
     private String body;
 
-    private User user;
-
-    public Message(String from,String to,String body){
+    public MessageDto(String from,String to,String body){
         this.from=from;
         this.to=to;
         this.body=body;
-    }
-
-    public void setId(long id){
-        this.id=id;
-    }
-
-    public long getId(){
-        return id;
     }
 
     public void setFrom(String from){
@@ -46,16 +35,8 @@ public class Message {
         return body;
     }
 
-    public void setUser(User user){
-        this.user=user;
+    @Override
+    public String toString() {
+        return "{\"from\":\""+from+"\",\"to\":\""+to+"\",\"body\":\""+body+"\"}";
     }
-
-    public User getUser(){
-        return user;
-    }
-    
 }
-
-// M-1
-
-// burada User tipli user teyin edib,dao dan istifade edrek from-a gore uygun user i set elemek lazimdir

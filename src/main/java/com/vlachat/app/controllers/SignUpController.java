@@ -3,7 +3,7 @@ package com.vlachat.app.controllers;
 import java.io.IOException;
 
 import com.google.gson.Gson;
-import com.vlachat.app.entities.User;
+import com.vlachat.app.dtos.UserDto;
 import com.vlachat.app.services.SignUpService;
 
 import jakarta.servlet.ServletException;
@@ -21,7 +21,7 @@ public class SignUpController extends HttpServlet {
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         
         Gson gson=new Gson();// Gson-u Step-9 da elave etdim
-        User user=gson.fromJson(req.getReader(),User.class);
+        UserDto user=gson.fromJson(req.getReader(),UserDto.class);
         boolean status = service.addUserToDB(user);
         if (status) {
             resp.getOutputStream().print("success");
