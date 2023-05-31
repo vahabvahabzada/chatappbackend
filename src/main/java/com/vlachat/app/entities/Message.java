@@ -57,5 +57,3 @@ public class Message {
 }
 
 // M-1
-
-// burada User tipli user teyin edib,dao dan istifade edrek from-a gore uygun user i set elemek lazimdir
