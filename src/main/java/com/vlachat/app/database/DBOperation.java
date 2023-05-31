@@ -4,10 +4,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import com.vlachat.app.entities.Message;
 import com.vlachat.app.entities.User;
 
 public class DBOperation {
     private static final String USER_TABLE="users";
+    private static final String MESSAGE_TABLE="messages";
+
 
     public static boolean addUserToDB(User user) throws SQLException {//username-ler unique-di
         Connection conn = DBConnection.getElaqe();
@@ -29,6 +33,7 @@ public class DBOperation {
         return false;
     }
 
+
     public static User getUser(String username) throws SQLException {// username-ler unique-di
         Connection conn = DBConnection.getElaqe();
         String GET_USER_BY_NAME = "select * from "+USER_TABLE+" where name=\'" + username + "\'";
@@ -44,4 +49,12 @@ public class DBOperation {
             return null;
         }
     }
+
+    public static Message sendMessage(Message message) throws SQLException{
+        Connection connection=DBConnection.getElaqe();
+        String SEND_MESSAGE="insert into "+MESSAGE_TABLE+"(mfrom,mto,mbody) values(\'"+message.getFrom()+"\',\'"+message.getTo()+"\',\'"+message.getBody()+"\')";
+        PreparedStatement preparedStatement=connection.prepareStatement(SEND_MESSAGE);
+        preparedStatement.execute();
+        return message;
+    }// M-3
 }

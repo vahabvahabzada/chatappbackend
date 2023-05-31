@@ -10,13 +10,16 @@ import org.apache.tomcat.util.descriptor.web.FilterDef;
 import org.apache.tomcat.util.descriptor.web.FilterMap;
 
 import com.vlachat.app.controllers.AuthServlet;
+import com.vlachat.app.controllers.SendMessageServlet;
 import com.vlachat.app.controllers.SignUpController;
 import com.vlachat.app.daos.AuthDao;
+import com.vlachat.app.daos.SendMessageDao;
 import com.vlachat.app.daos.SignUpDao;
 import com.vlachat.app.security.AuthFilter;
 import com.vlachat.app.security.JwtGenerator;
 import com.vlachat.app.security.PassWordHasher;
 import com.vlachat.app.services.AuthService;
+import com.vlachat.app.services.SendMessageService;
 import com.vlachat.app.services.SignUpService;
 
 import jakarta.servlet.DispatcherType;
@@ -59,6 +62,7 @@ public class App
         FilterMap authFilterMap=new FilterMap();
         authFilterMap.setFilterName("authorFilter");
         authFilterMap.addURLPattern("/secret");
+        authFilterMap.addURLPattern("/sendmessage");//M-6
         authFilterMap.setDispatcher(DispatcherType.REQUEST.name());
         context.addFilterMap(authFilterMap);
 
@@ -66,6 +70,7 @@ public class App
         tomcat.addServlet(context.getPath(), "signup", new SignUpController(new SignUpService(new SignUpDao(),new PassWordHasher()))).addMapping("/signup");;
         tomcat.addServlet(context.getPath(), "login", new AuthServlet(new AuthService(new AuthDao(), new PassWordHasher()), new JwtGenerator())).addMapping("/login");
         tomcat.addServlet(context.getPath(), "secretmessage", new SecretServlet()).addMapping("/secret");
+        tomcat.addServlet(context.getPath(), "sendmessage", new SendMessageServlet(new SendMessageService(new SendMessageDao()))).addMapping("/sendmessage");// M-6
         tomcat.start();
         tomcat.getServer().await();
     }
