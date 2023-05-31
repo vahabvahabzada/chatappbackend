@@ -44,6 +44,11 @@ public class Message {
         return body;
     }
 
+    @Override
+    public String toString() {
+        return "{\"from\":\""+from+"\",\"to\":\""+to+"\",\"body\":\""+body+"\"}";
+    }
+    
 }
 
 // M-1
