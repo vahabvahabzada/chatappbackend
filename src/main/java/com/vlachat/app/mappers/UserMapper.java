@@ -10,6 +10,9 @@ public class UserMapper {
     }
 
     public UserDto entityToDto(User user){
+        if(user.getPassword()==null){
+            return new UserDto(user.getName());
+        }
         UserDto userDto=new UserDto(user.getName(), user.getPassword());
         return userDto;
     }

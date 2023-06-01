@@ -16,6 +16,10 @@ public class User {
         this.password=password;
     }
 
+    public User(String name){
+        this.name=name;
+    }
+
     public void setId(long id){
         this.id=id;
     }

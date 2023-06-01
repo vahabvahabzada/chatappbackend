@@ -12,11 +12,13 @@ import org.apache.tomcat.util.descriptor.web.FilterMap;
 import com.vlachat.app.controllers.AuthServlet;
 import com.vlachat.app.controllers.LoadChatController;
 import com.vlachat.app.controllers.NewestMessagesServlet;
+import com.vlachat.app.controllers.SearchServlet;
 import com.vlachat.app.controllers.SendMessageServlet;
 import com.vlachat.app.controllers.SignUpController;
 import com.vlachat.app.daos.AuthDao;
 import com.vlachat.app.daos.LoadChatDao;
 import com.vlachat.app.daos.NewestMessagesDao;
+import com.vlachat.app.daos.SearchDao;
 import com.vlachat.app.daos.SendMessageDao;
 import com.vlachat.app.daos.SignUpDao;
 import com.vlachat.app.security.AuthFilter;
@@ -25,6 +27,7 @@ import com.vlachat.app.security.PassWordHasher;
 import com.vlachat.app.services.AuthService;
 import com.vlachat.app.services.LoadChatService;
 import com.vlachat.app.services.NewestMessagesService;
+import com.vlachat.app.services.SearchService;
 import com.vlachat.app.services.SendMessageService;
 import com.vlachat.app.services.SignUpService;
 
@@ -70,6 +73,8 @@ public class App
         authFilterMap.addURLPattern("/secret");
         authFilterMap.addURLPattern("/sendmessage");//M-6
         authFilterMap.addURLPattern("/ldchat");//L-4
+        authFilterMap.addURLPattern("/getnewestmesgs");//N-4
+        authFilterMap.addURLPattern("/search");// S-4
         authFilterMap.setDispatcher(DispatcherType.REQUEST.name());
         context.addFilterMap(authFilterMap);
 
@@ -80,6 +85,7 @@ public class App
         tomcat.addServlet(context.getPath(), "sendmessage", new SendMessageServlet(new SendMessageService(new SendMessageDao()))).addMapping("/sendmessage");// M-6
         tomcat.addServlet(context.getPath(), "getmessagehistory",new LoadChatController(new LoadChatService(new LoadChatDao()))).addMapping("/ldchat");
         tomcat.addServlet(context.getPath(), "getnewestmessages", new NewestMessagesServlet(new NewestMessagesService(new NewestMessagesDao()))).addMapping("/getnewestmesgs");;
+        tomcat.addServlet(context.getPath(), "searchusers", new SearchServlet(new SearchService(new SearchDao()))).addMapping("/search");
         tomcat.start();
         tomcat.getServer().await();
     }

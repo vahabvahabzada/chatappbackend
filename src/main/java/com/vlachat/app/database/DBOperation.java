@@ -76,6 +76,7 @@ public class DBOperation {
         return messages;// L-1
     }
 
+
     public static List<Message> getNewestMessages(String from,String to,long bound) throws SQLException{
         Connection connection=DBConnection.getElaqe();
         String GET_NEWEST_MESSAGES="select * from "+MESSAGE_TABLE+" where mfrom=\'"+from+"\' and mto=\'"+to+"\' offset "+bound;
@@ -87,4 +88,17 @@ public class DBOperation {
         }
         return newestMessages;
     } // N-1
+
+
+    public static List<User> searchUser(String searchText) throws SQLException{
+        Connection connection=DBConnection.getElaqe();
+        String SEARCH="select * from "+USER_TABLE+" where name like \'"+searchText+"%\'";
+        PreparedStatement preparedStatement=connection.prepareStatement(SEARCH);
+        ResultSet netice=preparedStatement.executeQuery();
+        List<User> users=new LinkedList<>();
+        while(netice.next()){
+            users.add(new User(netice.getString("name")));
+        }
+        return users;
+    }// S-1
 }
