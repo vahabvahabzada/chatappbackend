@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedList;
+import java.util.List;
 
 import com.vlachat.app.entities.Message;
 import com.vlachat.app.entities.User;
@@ -58,4 +60,17 @@ public class DBOperation {
         preparedStatement.execute();
         return message;
     }// M-3
+
+    public static List<Message> getMessageHistory(String from,String to) throws SQLException{
+        Connection connection=DBConnection.getElaqe();
+        String GET_MESSAGES="select * from "+MESSAGE_TABLE+" where mfrom=\'"+from+"\' and mto=\'"+to+"\'";
+        System.out.println("QUERY:"+GET_MESSAGES);
+        PreparedStatement preparedStatement=connection.prepareStatement(GET_MESSAGES);
+        ResultSet netice=preparedStatement.executeQuery();
+        List<Message> messages=new LinkedList<>();
+        while(netice.next()){
+            messages.add(new Message(netice.getString("mfrom"), netice.getString("mto"),netice.getString("mbody")));
+        }
+        return messages;// L-1
+    }
 }

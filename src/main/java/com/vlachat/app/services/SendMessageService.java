@@ -14,7 +14,7 @@ public class SendMessageService {
         this.sendMessageDao=sendMessageDao;
     }
 
-    public Message sendMessage(MessageDto messageDto){
+    public MessageDto sendMessage(MessageDto messageDto){
         MessageMapper mapper=new MessageMapper();
         Message message=mapper.dtoToEntity(messageDto);
         
@@ -24,7 +24,7 @@ public class SendMessageService {
         if(message.getFrom().equals("") || message.getTo().equals("") || message.getBody().equals("")){
             throw new CannotBeEmptyException("Fields can not be empty!");
         }
-        return sendMessageDao.sendMessage(message);
+        return mapper.entityToDto(sendMessageDao.sendMessage(message));
     }
 }
 
