@@ -10,7 +10,7 @@ import com.vlachat.app.entities.Message;
 import com.vlachat.app.mappers.MessageMapper;
 
 public class LoadChatService {
-    private LoadChatDao loadChatDao;
+    private final LoadChatDao loadChatDao;
     public LoadChatService(LoadChatDao loadChatDao){
         this.loadChatDao=loadChatDao;
     }

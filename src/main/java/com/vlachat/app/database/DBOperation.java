@@ -52,6 +52,7 @@ public class DBOperation {
         }
     }
 
+
     public static Message sendMessage(Message message) throws SQLException{
         Connection connection=DBConnection.getElaqe();
         String SEND_MESSAGE="insert into "+MESSAGE_TABLE+"(id,mfrom,mto,mbody) values("+message.getUser().getId()+",\'"+message.getFrom()+"\',\'"+message.getTo()+"\',\'"+message.getBody()+"\')";
@@ -60,6 +61,7 @@ public class DBOperation {
         preparedStatement.execute();
         return message;
     }// M-3
+
 
     public static List<Message> getMessageHistory(String from,String to) throws SQLException{
         Connection connection=DBConnection.getElaqe();
@@ -73,4 +75,16 @@ public class DBOperation {
         }
         return messages;// L-1
     }
+
+    public static List<Message> getNewestMessages(String from,String to,long bound) throws SQLException{
+        Connection connection=DBConnection.getElaqe();
+        String GET_NEWEST_MESSAGES="select * from "+MESSAGE_TABLE+" where mfrom=\'"+from+"\' and mto=\'"+to+"\' offset "+bound;
+        PreparedStatement preparedStatement=connection.prepareStatement(GET_NEWEST_MESSAGES);
+        ResultSet netice=preparedStatement.executeQuery();
+        LinkedList<Message> newestMessages=new LinkedList<>();
+        while(netice.next()){
+            newestMessages.add(new Message(netice.getString("mfrom"), netice.getString("mto"),netice.getString("mbody")));
+        }
+        return newestMessages;
+    } // N-1
 }

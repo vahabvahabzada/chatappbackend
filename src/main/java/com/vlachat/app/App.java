@@ -11,10 +11,12 @@ import org.apache.tomcat.util.descriptor.web.FilterMap;
 
 import com.vlachat.app.controllers.AuthServlet;
 import com.vlachat.app.controllers.LoadChatController;
+import com.vlachat.app.controllers.NewestMessagesServlet;
 import com.vlachat.app.controllers.SendMessageServlet;
 import com.vlachat.app.controllers.SignUpController;
 import com.vlachat.app.daos.AuthDao;
 import com.vlachat.app.daos.LoadChatDao;
+import com.vlachat.app.daos.NewestMessagesDao;
 import com.vlachat.app.daos.SendMessageDao;
 import com.vlachat.app.daos.SignUpDao;
 import com.vlachat.app.security.AuthFilter;
@@ -22,6 +24,7 @@ import com.vlachat.app.security.JwtGenerator;
 import com.vlachat.app.security.PassWordHasher;
 import com.vlachat.app.services.AuthService;
 import com.vlachat.app.services.LoadChatService;
+import com.vlachat.app.services.NewestMessagesService;
 import com.vlachat.app.services.SendMessageService;
 import com.vlachat.app.services.SignUpService;
 
@@ -76,6 +79,7 @@ public class App
         tomcat.addServlet(context.getPath(), "secretmessage", new SecretServlet()).addMapping("/secret");
         tomcat.addServlet(context.getPath(), "sendmessage", new SendMessageServlet(new SendMessageService(new SendMessageDao()))).addMapping("/sendmessage");// M-6
         tomcat.addServlet(context.getPath(), "getmessagehistory",new LoadChatController(new LoadChatService(new LoadChatDao()))).addMapping("/ldchat");
+        tomcat.addServlet(context.getPath(), "getnewestmessages", new NewestMessagesServlet(new NewestMessagesService(new NewestMessagesDao()))).addMapping("/getnewestmesgs");;
         tomcat.start();
         tomcat.getServer().await();
     }
