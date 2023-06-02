@@ -12,7 +12,7 @@ public class DBConnection {
             System.out.println("Connecting to database...");
             try {
                 Class.forName("org.postgresql.Driver");
-                elaqe = DriverManager.getConnection("jdbc:postgresql://localhost:5432/chatappbackendservlet", "postgres", "vahab262011");
+                elaqe = DriverManager.getConnection("jdbc:postgresql://localhost:5432/chatappbackendservlet", "postgres", "root");
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
