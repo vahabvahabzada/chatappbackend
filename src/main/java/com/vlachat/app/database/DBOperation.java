@@ -101,4 +101,38 @@ public class DBOperation {
         }
         return users;
     }// S-1
+
+    
+    public static List<Message> loadMessageBoxes(String currentUser) throws SQLException{
+        Connection connection=DBConnection.getElaqe();
+        String LOAD_BY_FROM="(select distinct mto as box_man from "+MESSAGE_TABLE+" where mfrom=\'"+currentUser+"\')"+" union "+"(select distinct mfrom as box_man from "+MESSAGE_TABLE+" where mto=\'"+currentUser+"\')";
+        List<String> boxMans=new LinkedList<>();
+        PreparedStatement preparedStatement=connection.prepareStatement(LOAD_BY_FROM);
+        ResultSet netice=preparedStatement.executeQuery();
+        while(netice.next()){
+            boxMans.add(netice.getString("box_man")); 
+        }
+        System.out.println("BoxMan Queary : "+LOAD_BY_FROM);
+        System.out.println("BoxMans : "+boxMans);
+
+        String GET_MESSAGE_BOXES="";
+        for(String targetUser:boxMans){
+            GET_MESSAGE_BOXES+="(select * from "+MESSAGE_TABLE+" inner join "+USER_TABLE+" on "+USER_TABLE+".id="+MESSAGE_TABLE+".id"+" where mfrom=\'"+currentUser+"\' and mto=\'"+targetUser+"\'"+" order by mesg_id desc limit 1)";
+            //System.out.println("GET_MESSAGE_BOXES : "+GET_MESSAGE_BOXES);
+            GET_MESSAGE_BOXES+=" union ";
+
+            GET_MESSAGE_BOXES+="(select * from "+MESSAGE_TABLE+" inner join "+USER_TABLE+" on "+USER_TABLE+".id="+MESSAGE_TABLE+".id"+" where mfrom=\'"+targetUser+"\' and mto=\'"+currentUser+"\'"+" order by mesg_id desc limit 1)";
+            GET_MESSAGE_BOXES+=" union ";
+        }
+        GET_MESSAGE_BOXES=GET_MESSAGE_BOXES.substring(0, GET_MESSAGE_BOXES.length()-7);//axrinci union-uxaric edirik
+        //System.out.println("Target Query : "+GET_MESSAGE_BOXES);
+        preparedStatement=connection.prepareStatement(GET_MESSAGE_BOXES);
+        netice=preparedStatement.executeQuery();
+        
+        List<Message> mesgs=new LinkedList<>();
+        while(netice.next()){
+            mesgs.add(new Message(netice.getString("mfrom"),netice.getString("mto"),netice.getString("mbody"),new User(netice.getString("name"))));// Burada sonradan profil sekli de ola biler meselen
+        }
+        return mesgs;       
+    }// NF-1
 }

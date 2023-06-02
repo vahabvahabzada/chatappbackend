@@ -14,6 +14,13 @@ public class Message {
         this.body=body;
     }
 
+    public Message(String from,String to,String body,User user){
+        this.from=from;
+        this.to=to;
+        this.body=body;
+        this.user=user;
+    }
+
     public void setId(long id){
         this.id=id;
     }

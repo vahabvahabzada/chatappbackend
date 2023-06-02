@@ -24,7 +24,7 @@ public class LoadChatController extends HttpServlet{
         Gson gson=new Gson();
         SenderAndReceiverDto senderAndReceiverDto=gson.fromJson(req.getReader(), SenderAndReceiverDto.class);
         List<MessageDto> messages=loadChatService.getMessageHistory(senderAndReceiverDto);// L-3
-        resp.getWriter().println(messages);// L-3
+        resp.getWriter().print(messages);// L-3
     }
 }
 // L-1

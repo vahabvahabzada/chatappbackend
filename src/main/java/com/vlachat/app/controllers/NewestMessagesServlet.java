@@ -23,6 +23,6 @@ public class NewestMessagesServlet extends HttpServlet{
         Gson gson=new Gson();
         GetNewestMessagesDto dto=gson.fromJson(req.getReader(), GetNewestMessagesDto.class);
         List<MessageDto> messages=newestMessagesService.getNewestMessages(dto);//N-3
-        resp.getWriter().println(messages);
+        resp.getWriter().print(messages);
     }
 }// N-1

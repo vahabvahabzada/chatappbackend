@@ -22,7 +22,7 @@ public class SendMessageServlet extends HttpServlet{
         // {"from":"","to":"","body":""} tipinde bir data gelecek request-de
         Gson gson=new Gson();
         MessageDto mesage=gson.fromJson(req.getReader(), MessageDto.class);
-        resp.getWriter().println(sendMessageService.sendMessage(mesage));// M-5
+        resp.getWriter().print(sendMessageService.sendMessage(mesage));// M-5
     }
 }
 

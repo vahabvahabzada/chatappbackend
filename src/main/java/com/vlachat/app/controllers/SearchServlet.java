@@ -23,7 +23,7 @@ public class SearchServlet extends HttpServlet{
         Gson gson=new Gson();
         String searchText=gson.fromJson(req.getReader(),String.class);
         List<UserDto> users=searchService.searchUser(searchText);
-        resp.getWriter().println(users);// S-3
+        resp.getWriter().print(users);// S-3
     }
 }
 // S-1

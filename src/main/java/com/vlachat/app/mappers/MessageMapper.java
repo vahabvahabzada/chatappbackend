@@ -13,6 +13,11 @@ public class MessageMapper {
     }
 
     public MessageDto entityToDto(Message message){
-        return new MessageDto(message.getFrom(), message.getTo(), message.getBody());
+        if(message.getUser()==null){
+            System.out.println("From Message Mapper : "+message.getUser().getName());
+            return new MessageDto(message.getFrom(), message.getTo(), message.getBody());
+        }
+        UserMapper userMapper=new UserMapper();
+        return new MessageDto(message.getFrom(), message.getTo(), message.getBody(), userMapper.entityToDto(message.getUser()));// NF-3
     }
 }

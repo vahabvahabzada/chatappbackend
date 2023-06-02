@@ -33,13 +33,13 @@ public class UserDto {
     public String toString() {
         String str="{";
         if(name!=null){
-            str+=("\"name\":"+name);
+            str+=("\"name\":\""+name+"\"");
         }
         if(password!=null){
             if(!str.equals("{")){
                 str+=",";
             }
-            str+=("\"password\":"+password);
+            str+=("\"password\":\""+password+"\"");
         }
         str+="}";
 
