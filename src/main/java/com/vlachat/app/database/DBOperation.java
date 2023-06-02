@@ -105,14 +105,14 @@ public class DBOperation {
     
     public static List<Message> loadMessageBoxes(String currentUser) throws SQLException{
         Connection connection=DBConnection.getElaqe();
-        String LOAD_BY_FROM="(select distinct mto as box_man from "+MESSAGE_TABLE+" where mfrom=\'"+currentUser+"\')"+" union "+"(select distinct mfrom as box_man from "+MESSAGE_TABLE+" where mto=\'"+currentUser+"\')";
+        String LOAD_BY_FROM_OR_TO="(select distinct mto as box_man from "+MESSAGE_TABLE+" where mfrom=\'"+currentUser+"\')"+" union "+"(select distinct mfrom as box_man from "+MESSAGE_TABLE+" where mto=\'"+currentUser+"\')";
         List<String> boxMans=new LinkedList<>();
-        PreparedStatement preparedStatement=connection.prepareStatement(LOAD_BY_FROM);
+        PreparedStatement preparedStatement=connection.prepareStatement(LOAD_BY_FROM_OR_TO);
         ResultSet netice=preparedStatement.executeQuery();
         while(netice.next()){
             boxMans.add(netice.getString("box_man")); 
         }
-        System.out.println("BoxMan Queary : "+LOAD_BY_FROM);
+        System.out.println("BoxMan Queary : "+LOAD_BY_FROM_OR_TO);
         System.out.println("BoxMans : "+boxMans);
 
         String GET_MESSAGE_BOXES="";
