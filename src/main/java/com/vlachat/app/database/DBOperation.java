@@ -117,15 +117,16 @@ public class DBOperation {
 
         String GET_MESSAGE_BOXES="";
         for(String targetUser:boxMans){
-            GET_MESSAGE_BOXES+="(select * from "+MESSAGE_TABLE+" inner join "+USER_TABLE+" on "+USER_TABLE+".id="+MESSAGE_TABLE+".id"+" where mfrom=\'"+currentUser+"\' and mto=\'"+targetUser+"\'"+" order by mesg_id desc limit 1)";
+            GET_MESSAGE_BOXES+="(select * from "+MESSAGE_TABLE+" inner join "+USER_TABLE+" on "+USER_TABLE+".id="+MESSAGE_TABLE+".id"+" where mfrom=\'"+currentUser+"\' and mto=\'"+targetUser+"\')";
             //System.out.println("GET_MESSAGE_BOXES : "+GET_MESSAGE_BOXES);
             GET_MESSAGE_BOXES+=" union ";
 
-            GET_MESSAGE_BOXES+="(select * from "+MESSAGE_TABLE+" inner join "+USER_TABLE+" on "+USER_TABLE+".id="+MESSAGE_TABLE+".id"+" where mfrom=\'"+targetUser+"\' and mto=\'"+currentUser+"\'"+" order by mesg_id desc limit 1)";
+            GET_MESSAGE_BOXES+="(select * from "+MESSAGE_TABLE+" inner join "+USER_TABLE+" on "+USER_TABLE+".id="+MESSAGE_TABLE+".id"+" where mfrom=\'"+targetUser+"\' and mto=\'"+currentUser+"\')";
             GET_MESSAGE_BOXES+=" union ";
         }
         GET_MESSAGE_BOXES=GET_MESSAGE_BOXES.substring(0, GET_MESSAGE_BOXES.length()-7);//axrinci union-uxaric edirik
-        //System.out.println("Target Query : "+GET_MESSAGE_BOXES);
+        GET_MESSAGE_BOXES=GET_MESSAGE_BOXES+" order by mesg_id desc limit 1";
+        System.out.println("Target Query : "+GET_MESSAGE_BOXES);
         preparedStatement=connection.prepareStatement(GET_MESSAGE_BOXES);
         netice=preparedStatement.executeQuery();
         
